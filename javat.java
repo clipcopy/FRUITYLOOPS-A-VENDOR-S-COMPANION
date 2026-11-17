@@ -1,114 +1,37 @@
-import java.io.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-
-// FruityLoops: A Vendor's Companion
-// CC 101 - Group 2
 
 public class FruityLoops {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        LocalDate today = LocalDate.now();
-        /* ======= PAUL  /// NOTE! PLEASE INTINDIHIN TO
-        // fruits 
-        ArrayList<String> fruitName = new ArrayList<>();
-        ArrayList<String> fruitUnit = new ArrayList<>();
-        ArrayList<Double> fruitPrice = new ArrayList<>();
-        ArrayList<Integer> bundleSize = new ArrayList<>();
-        ArrayList<Double> bundlePrice = new ArrayList<>();
-        ArrayList<Integer> shelfLife = new ArrayList<>();
-        ArrayList<String> fruitStatus = new ArrayList<>();
-        ArrayList<String> archiveReason = new ArrayList<>();
 
-        // stock (every restock is one entry)
-        ArrayList<String> stockFruit = new ArrayList<>();
-        ArrayList<Double> stockQty = new ArrayList<>();
-        ArrayList<String> stockDate = new ArrayList<>();
-        ArrayList<String> stockRipeness = new ArrayList<>();
-        ArrayList<String> stockSpoil = new ArrayList<>();
-        ArrayList<String> stockStatus = new ArrayList<>();
+        Scanner s = new Scanner(System.in);
 
-        // sales
-        ArrayList<String> saleDate = new ArrayList<>();
-        ArrayList<String> saleFruit = new ArrayList<>();
-        ArrayList<String> saleSoldAs = new ArrayList<>();
-        ArrayList<Double> saleQty = new ArrayList<>();
-        ArrayList<Double> saleTotal = new ArrayList<>();
+        // ===================== FRUIT DATABASE (mga arrays) =====================
+        // Index:                 0        1         2         3        4         5           6   7   8   9
+        String[] fruitName   = {"Mango", "Banana", "Grapes", "Apple", "Papaya", "Lanzones", "", "", "", ""};
+        String[] unit        = {"kg",    "pc",     "pack",   "pc",    "kg",     "kg",       "", "", "", ""};
+        double[] price       = {120,     10,       80,       25,      60,       100,        0,  0,  0,  0};
+        int[] bundleSize     = {0,       3,        0,        4,       0,        0,          0,  0,  0,  0};
+        double[] bundlePrice = {0,       25,       0,        90,      0,        0,          0,  0,  0,  0};
+        int[] shelfLife      = {7,       5,        10,       14,      6,        6,          0,  0,  0,  0};
+        double[] stock       = {6,       42,       15,       40,      8,        0,          0,  0,  0,  0};
+        int[] daysLeft       = {1,       2,        7,        9,       4,        0,          0,  0,  0,  0};
+        String[] status      = {"ACTIVE", "ACTIVE", "ACTIVE", "ACTIVE", "ACTIVE", "ARCHIVED", "", "", "", ""};
+        String[] reason      = {"NONE",   "NONE",   "NONE",   "NONE",   "NONE",   "OUT OF SEASON", "", "", "", ""};
+        boolean[] newFruit   = {false,   false,    false,    false,   false,    false,      false, false, false, false};
 
-        // waste
-        ArrayList<String> wasteDate = new ArrayList<>();
-        ArrayList<String> wasteFruit = new ArrayList<>();
-        ArrayList<Double> wasteQty = new ArrayList<>();
-        ArrayList<String> wasteReason = new ArrayList<>();
-        */ // ======= PAUL /// NOTE! PLEASE INTINDIHIN TO
+        // ===================== SALES AT WASTE RECORDS =====================
+        double[] sales2WeeksAgo  = {1920, 470, 560, 670, 60, 0, 0, 0, 0, 0};   // pesos
+        double[] salesLastWeek   = {1920, 470, 560, 670, 60, 0, 0, 0, 0, 0};   // pesos
+        double[] salesThisWeek   = {960,  250, 320, 400, 0,  0, 0, 0, 0, 0};   // pesos
+        double[] qtySoldThisWeek = {8,    25,  4,   16,  0,  0, 0, 0, 0, 0};   // sa unit ng prutas
+        double[] wasteQty        = {0.5,  6,   0,   0,   0,  0, 0, 0, 0, 0};   // mga nasira
 
+        int fruitCount = 6;    // ilan ang prutas sa arrays ngayon (max is 10)
+        int choice;
 
-        /*  // ======= PAUL /// NOTE! PLEASE INTINDIHIN TO
-        // ---------- LOAD DATA FROM FILES ----------
-        try {
-            Scanner file = new Scanner(new File("data/fruits.txt"));
-            file.nextLine(); // skip header
-            while (file.hasNextLine()) {
-                String[] p = file.nextLine().split(" \\| ");
-                fruitName.add(p[0]);
-                fruitUnit.add(p[1]);
-                fruitPrice.add(Double.parseDouble(p[2]));
-                bundleSize.add(Integer.parseInt(p[3]));
-                bundlePrice.add(Double.parseDouble(p[4]));
-                shelfLife.add(Integer.parseInt(p[5]));
-                fruitStatus.add(p[6]);
-                archiveReason.add(p[7]);
-            }
-            file.close();
-
-            file = new Scanner(new File("data/stock.txt"));
-            file.nextLine();
-            while (file.hasNextLine()) {
-                String[] p = file.nextLine().split(" \\| ");
-                stockFruit.add(p[0]);
-                stockQty.add(Double.parseDouble(p[1]));
-                stockDate.add(p[2]);
-                stockRipeness.add(p[3]);
-                stockSpoil.add(p[4]);
-                stockStatus.add(p[5]);
-            }
-            file.close();
-
-            file = new Scanner(new File("data/sales.txt"));
-            file.nextLine();
-            while (file.hasNextLine()) {
-                String[] p = file.nextLine().split(" \\| ");
-                saleDate.add(p[0]);
-                saleFruit.add(p[1]);
-                saleSoldAs.add(p[2]);
-                saleQty.add(Double.parseDouble(p[3]));
-                saleTotal.add(Double.parseDouble(p[4]));
-            }
-            file.close();
-
-            file = new Scanner(new File("data/waste.txt"));
-            file.nextLine();
-            while (file.hasNextLine()) {
-                String[] p = file.nextLine().split(" \\| ");
-                wasteDate.add(p[0]);
-                wasteFruit.add(p[1]);
-                wasteQty.add(Double.parseDouble(p[2]));
-                wasteReason.add(p[3]);
-            }
-            file.close();
-
-            System.out.println("Data loaded!");
-        } catch (Exception e) {
-            System.out.println("Some data files are missing. Starting with empty records.");
-        } 
-        */ // ======= PAUL /// NOTE! PLEASE INTINDIHIN TO
-
-        boolean running = true;
-        while (running) {
-            System.out.println("\n===== FRUITYLOOPS: A VENDOR'S COMPANION =====");
-            System.out.println("Date today: " + today);
+        do {
+            // ---------- MENU ----------
+            System.out.println("===== FRUITYLOOPS: A VENDOR'S COMPANION =====");
             System.out.println("1. Add Fruit");
             System.out.println("2. Restock");
             System.out.println("3. Sell");
@@ -119,325 +42,330 @@ public class FruityLoops {
             System.out.println("8. Suggestions and Reports");
             System.out.println("0. Exit");
             System.out.print("Enter choice: ");
+            choice = s.nextInt();
 
-
-            /*  // ======= PAUL /// NOTE! PLEASE INTINDIHIN TO
-            try {
-                int choice = sc.nextInt();
-                sc.nextLine();
-                boolean changed = false;
-
-                // find slow-moving fruits (low sales 3 weeks in a row), used in 5 and 8
-                ArrayList<String> slowFruits = new ArrayList<>();
-                for (int f = 0; f < fruitName.size(); f++) {
-                    if (!fruitStatus.get(f).equals("ACTIVE")) continue;
-
-                    // skip new fruits that were not in stock 3 weeks ago
-                    boolean oldFruit = false;
-                    for (int i = 0; i < stockFruit.size(); i++) {
-                        if (stockFruit.get(i).equals(fruitName.get(f)) && LocalDate.parse(stockDate.get(i)).isBefore(today.minusDays(20))) {
-                            oldFruit = true;
-                        }
-                    }
-                    if (!oldFruit) continue;
-
-                    int activeCount = 0;
-                    for (int k = 0; k < fruitStatus.size(); k++) {
-                        if (fruitStatus.get(k).equals("ACTIVE")) activeCount++;
-                    }
-
-                    int lowWeeks = 0;
-                    for (int w = 0; w < 3; w++) {
-                        LocalDate from = today.minusDays(7 * w + 6);
-                        LocalDate to = today.minusDays(7 * w);
-                        double allSales = 0;
-                        double mySales = 0;
-                        for (int s = 0; s < saleDate.size(); s++) {
-                            LocalDate d = LocalDate.parse(saleDate.get(s));
-                            if (!d.isBefore(from) && !d.isAfter(to)) {
-                                allSales += saleTotal.get(s);
-                                if (saleFruit.get(s).equals(fruitName.get(f))) mySales += saleTotal.get(s);
-                            }
-                        }
-                        double average = allSales / activeCount;
-                        if (mySales < average / 2) lowWeeks++;
-                    }
-                    if (lowWeeks == 3) slowFruits.add(fruitName.get(f));
+            int activeCount = 0;
+            double sum2WeeksAgo = 0, sumLastWeek = 0, sumThisWeek = 0;
+            for (int i = 0; i < fruitCount; i++) {
+                if (status[i].equals("ACTIVE")) {
+                    activeCount++;
+                    sum2WeeksAgo += sales2WeeksAgo[i];
+                    sumLastWeek += salesLastWeek[i];
+                    sumThisWeek += salesThisWeek[i];
                 }
-                */  // ======= PAUL /// NOTE! PLEASE INTINDIHIN TO
-
-                if (choice == 1) { // DITO KO I ASSIGN SI CHARISSA
-                    // ---------- ADD FRUIT ----------
-
-
-                    // DITO KO I ASSIGN SI CHARISSA
-
-                } else if (choice == 2) {   // DITO KO I ASSIGN SI KENDRICK 
-                    // ---------- RESTOCK ----------
-
-
-                     // DITO KO I ASSIGN SI KENDRICK 
-
-                } else if (choice == 3) {  // DITO KO I ASSIGN SI RENNZZZ MAHIRAP TO PERO KAYA NYA HAHAHAHA 
-                    // ---------- SELL ----------
-
-                     // DITO KO I ASSIGN SI RENNZZZ MAHIRAP TO PERO KAYA NYA HAHAHAHA 
-
-                } else if (choice == 4) { 
-                    // ---------- VIEW STOCK ----------
-                    /* for (int f = 0; f < fruitName.size(); f++) {
-                        if (!fruitStatus.get(f).equals("ACTIVE")) continue;
-                        double stock = 0;
-                        for (int i = 0; i < stockFruit.size(); i++) {
-                            if (stockFruit.get(i).equals(fruitName.get(f)) && stockStatus.get(i).equals("ACTIVE")) stock += stockQty.get(i);
-                        }
-                        System.out.println(fruitName.get(f) + ": " + stock + " " + fruitUnit.get(f));
-                        for (int i = 0; i < stockFruit.size(); i++) {
-                            if (stockFruit.get(i).equals(fruitName.get(f)) && stockStatus.get(i).equals("ACTIVE")) {
-                                System.out.println("   " + stockQty.get(i) + " " + fruitUnit.get(f) + " | received " + stockDate.get(i) + " | spoils around " + stockSpoil.get(i));
-                            }
+            }
+            boolean[] slow = new boolean[10];
+            if (activeCount > 0) {
+                double avg2WeeksAgo = sum2WeeksAgo / activeCount;
+                double avgLastWeek = sumLastWeek / activeCount;
+                double avgThisWeek = sumThisWeek / activeCount;
+                for (int i = 0; i < fruitCount; i++) {
+                    if (status[i].equals("ACTIVE") && !newFruit[i]) {
+                        if (sales2WeeksAgo[i] < avg2WeeksAgo / 2 && salesLastWeek[i] < avgLastWeek / 2 && salesThisWeek[i] < avgThisWeek / 2) {
+                            slow[i] = true;
                         }
                     }
-                    */
+                }
+            }
 
-                } else if (choice == 5) {
-                    // ---------- WEEKLY SALES RANKING (last 7 days) ----------
-                    /* LocalDate weekStart = today.minusDays(6);
-                    ArrayList<String> rankName = new ArrayList<>();
-                    ArrayList<Double> rankTotal = new ArrayList<>();
-                    for (int f = 0; f < fruitName.size(); f++) {
-                        if (!fruitStatus.get(f).equals("ACTIVE")) continue;
-                        double total = 0;
-                        for (int s = 0; s < saleDate.size(); s++) {
-                            if (saleFruit.get(s).equals(fruitName.get(f)) && !LocalDate.parse(saleDate.get(s)).isBefore(weekStart)) {
-                                total += saleTotal.get(s);
-                            }
-                        }
-                        rankName.add(fruitName.get(f));
-                        rankTotal.add(total);
+            switch (choice) {
+
+                case 1: // ADD FRUIT
+                    if (fruitCount == 10) {
+                        System.out.println("Puno na ang listahan, bes. Hanggang 10 prutas lang tayo.");
+                        break;
                     }
+                    s.nextLine();
+                    System.out.print("Fruit name: ");
+                    String name = s.nextLine();
 
-                    // bubble sort, highest sales first
-                    for (int i = 0; i < rankTotal.size() - 1; i++) {
-                        for (int j = 0; j < rankTotal.size() - 1 - i; j++) {
-                            if (rankTotal.get(j) < rankTotal.get(j + 1)) {
-                                double tempTotal = rankTotal.get(j);
-                                rankTotal.set(j, rankTotal.get(j + 1));
-                                rankTotal.set(j + 1, tempTotal);
-                                String tempName = rankName.get(j);
-                                rankName.set(j, rankName.get(j + 1));
-                                rankName.set(j + 1, tempName);
-                            }
-                        }
-                    } */
-
-                    /* System.out.println("Sales from " + weekStart + " to " + today);
-                    for (int i = 0; i < rankName.size(); i++) {
-                        System.out.println((i + 1) + ". " + rankName.get(i) + " - P" + rankTotal.get(i));
-                    }
-                    if (rankName.size() > 0) {
-                        System.out.println("Best-selling fruit: " + rankName.get(0));
-                        System.out.println("Lowest-selling fruit: " + rankName.get(rankName.size() - 1));
-                    }
-                    for (int i = 0; i < slowFruits.size(); i++) {
-                        System.out.println("ALERT: " + slowFruits.get(i) + " has low sales for 3 weeks in a row!");
-                    } 
-                    */
-
-                } else if (choice == 6) { 
-                     // // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
-                    // ---------- SPOILAGE CHECK ----------
-                    /* System.out.println("Note: spoil dates are only estimates. Please check the fruits yourself.");
-                    boolean found = false;
-                    for (int i = 0; i < stockFruit.size(); i++) {
-                        if (!stockStatus.get(i).equals("ACTIVE")) continue;
-                        LocalDate spoil = LocalDate.parse(stockSpoil.get(i));
-                        if (spoil.isAfter(today.plusDays(2))) continue; // still more than 2 days left
-
-                        found = true;
-                        System.out.println("\n" + stockFruit.get(i) + " - " + stockQty.get(i) + " | spoils around " + spoil);
-                        System.out.println("Reminder: sell this first (FIFO) and check it.");
-                        System.out.print("1 = Still okay (extend), 2 = Spoiled, 3 = Skip: ");
-                        int c = sc.nextInt();
-                        if (c == 1) {
-                            System.out.print("Extend by how many days? ");
-                            int add = sc.nextInt();
-                            stockSpoil.set(i, spoil.plusDays(add).toString());
-                            System.out.println("New spoil date: " + stockSpoil.get(i));
-                            changed = true;
-                        } else if (c == 2) {
-                            wasteDate.add(today.toString());
-                            wasteFruit.add(stockFruit.get(i));
-                            wasteQty.add(stockQty.get(i));
-                            wasteReason.add("SPOILED");
-                            stockQty.set(i, 0.0);
-                            stockStatus.set(i, "SPOILED");
-                            System.out.println("Added to waste log.");
-                            changed = true;
+                    boolean exists = false;
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (fruitName[i].equalsIgnoreCase(name)) {
+                            exists = true;
                         }
                     }
-                    if (!found) System.out.println("No fruits are near their spoil date.");
+                    if (exists) {
+                        System.out.println("Nandiyan na si " + name + " sa listahan natin, bes.");
+                        break;
+                    }
 
-                    // vendor can still mark any stock as spoiled
-                    System.out.println("\nOther stock:");
-                    for (int i = 0; i < stockFruit.size(); i++) {
-                        if (stockStatus.get(i).equals("ACTIVE")) {
-                            System.out.println((i + 1) + ". " + stockFruit.get(i) + " - " + stockQty.get(i) + " (received " + stockDate.get(i) + ")");
+                    System.out.print("Unit (kg / pc / pack): ");
+                    String newUnit = s.next();
+                    System.out.print("Price per " + newUnit + ": ");
+                    double newPrice = s.nextDouble();
+                    System.out.print("Ilan ang " + newUnit + " sa isang bundle? (0 kung wala): ");
+                    int newBundleSize = s.nextInt();
+                    double newBundlePrice = 0;
+                    if (newBundleSize > 0) {
+                        System.out.print("Price per bundle: ");
+                        newBundlePrice = s.nextDouble();
+                    }
+                    System.out.print("Shelf life (ilang araw bago masira): ");
+                    int newShelfLife = s.nextInt();
+
+                    // ilagay ang bagong prutas sa index
+                    fruitName[fruitCount] = name;
+                    unit[fruitCount] = newUnit;
+                    price[fruitCount] = newPrice;
+                    bundleSize[fruitCount] = newBundleSize;
+                    bundlePrice[fruitCount] = newBundlePrice;
+                    shelfLife[fruitCount] = newShelfLife;
+                    stock[fruitCount] = 0;
+                    daysLeft[fruitCount] = 0;
+                    status[fruitCount] = "ACTIVE";
+                    reason[fruitCount] = "NONE";
+                    newFruit[fruitCount] = true;
+                    fruitCount++;
+
+                    System.out.println("Ayos! Na-add na si " + name + ". Gamitin ang Restock para maglagay ng stock.");
+                    break;
+
+                case 2: // RESTOCK
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (status[i].equals("ACTIVE")) {
+                            System.out.println((i + 1) + ". " + fruitName[i]);
                         }
-                    }
-                    System.out.print("Enter number to mark as spoiled (0 = none): ");
-                    int m = sc.nextInt() - 1;
-                    if (m >= 0 && m < stockFruit.size() && stockStatus.get(m).equals("ACTIVE")) {
-                        wasteDate.add(today.toString());
-                        wasteFruit.add(stockFruit.get(m));
-                        wasteQty.add(stockQty.get(m));
-                        wasteReason.add("SPOILED");
-                        stockQty.set(m, 0.0);
-                        stockStatus.set(m, "SPOILED");
-                        System.out.println("Added to waste log.");
-                        changed = true;
-                    }
-                    */  // // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
-                } else if (choice == 7) {
-                    // ---------- ARCHIVE / RESTORE ----------
-                    // // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
-                    /* for (int i = 0; i < fruitName.size(); i++) {
-                        System.out.println((i + 1) + ". " + fruitName.get(i) + " [" + fruitStatus.get(i) + "]");
                     }
                     System.out.print("Choose fruit: ");
-                    int f = sc.nextInt() - 1;
+                    int r = s.nextInt() - 1;
 
-                    if (f < 0 || f >= fruitName.size()) {
-                        System.out.println("Invalid fruit.");
-                    } else if (fruitStatus.get(f).equals("ACTIVE")) {
-                        System.out.print("Reason (1 = Low sales, 2 = Out of season, 3 = Spoilage, 4 = Vendor choice): ");
-                        int r = sc.nextInt();
-                        String reason = "VENDOR CHOICE";
-                        if (r == 1) reason = "LOW SALES";
-                        if (r == 2) reason = "OUT OF SEASON";
-                        if (r == 3) reason = "SPOILAGE";
-                        fruitStatus.set(f, "ARCHIVED");
-                        archiveReason.set(f, reason);
-                        System.out.println(fruitName.get(f) + " archived. Its sales history is kept.");
-                        changed = true;
+                    if (r < 0 || r >= fruitCount || !status[r].equals("ACTIVE")) {
+                        System.out.println("Nako, invalid na prutas 'yan, bes.");
                     } else {
-                        fruitStatus.set(f, "ACTIVE");
-                        archiveReason.set(f, "NONE");
-                        System.out.println(fruitName.get(f) + " restored!");
-                        changed = true;
-                    }
-                    */ // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
+                        System.out.print("Quantity received (" + unit[r] + "): ");
+                        double qty = s.nextDouble();
+                        System.out.print("Ripeness (1 = Ripe, 2 = Unripe): ");
+                        int ripe = s.nextInt();
 
-                }  else if (choice == 8) {
-                    // --------- SUGGESTIONS ----------
-                    /*  // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
-                    System.out.println("--- SUGGESTIONS ---");
-                    LocalDate weekStart = today.minusDays(6);
-                    for (int f = 0; f < fruitName.size(); f++) {
-                        if (!fruitStatus.get(f).equals("ACTIVE")) continue;
-                        double stock = 0;
-                        for (int i = 0; i < stockFruit.size(); i++) {
-                            if (stockFruit.get(i).equals(fruitName.get(f)) && stockStatus.get(i).equals("ACTIVE")) stock += stockQty.get(i);
+                        // estimate kung kailan masisira
+                        if (ripe == 1) {
+                            daysLeft[r] = shelfLife[r] / 2;
+                        } else {
+                            daysLeft[r] = shelfLife[r];
                         }
-                        double soldThisWeek = 0;
-                        for (int s = 0; s < saleDate.size(); s++) {
-                            if (saleFruit.get(s).equals(fruitName.get(f)) && !LocalDate.parse(saleDate.get(s)).isBefore(weekStart)) {
-                                soldThisWeek += saleQty.get(s);
+                        stock[r] = stock[r] + qty;
+
+                        System.out.println("Nice! Nadagdag na ang stock. Si " + fruitName[r] + " may " + stock[r] + " " + unit[r] + " na ngayon.");
+                        System.out.println("Estimated na araw bago masira: " + daysLeft[r]);
+                    }
+                    break;
+
+                case 3: // SELL
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (status[i].equals("ACTIVE")) {
+                            System.out.println((i + 1) + ". " + fruitName[i] + " (stock: " + stock[i] + " " + unit[i] + ")");
+                        }
+                    }
+                    System.out.print("Choose fruit: ");
+                    int f = s.nextInt() - 1;
+
+                    if (f < 0 || f >= fruitCount || !status[f].equals("ACTIVE")) {
+                        System.out.println("Nako, invalid na prutas 'yan, bes.");
+                    } else if (stock[f] == 0) {
+                        System.out.println("Wala nang stock, bes. Ubos na ang " + fruitName[f] + ".");
+                    } else {
+                        // per unit ba or per bundle
+                        int how = 1;
+                        if (bundleSize[f] > 0) {
+                            System.out.print("1 = per " + unit[f] + " (P" + price[f] + "), 2 = per bundle of " + bundleSize[f] + " (P" + bundlePrice[f] + "): ");
+                            how = s.nextInt();
+                        }
+                        System.out.print("Quantity: ");
+                        double qty = s.nextDouble();
+
+                        double baseQty;
+                        double total;
+                        if (how == 2) {
+                            baseQty = qty * bundleSize[f];   // bundle to pieces conversion
+                            total = qty * bundlePrice[f];
+                        } else {
+                            baseQty = qty;
+                            total = qty * price[f];
+                        }
+
+                        if (baseQty > stock[f]) {
+                            System.out.println("Kulang ang stock, bes. " + stock[f] + " " + unit[f] + " na lang ang natitira.");
+                        } else {
+                            stock[f] = stock[f] - baseQty;
+                            salesThisWeek[f] = salesThisWeek[f] + total;
+                            qtySoldThisWeek[f] = qtySoldThisWeek[f] + baseQty;
+                            System.out.println("Sold, bes! Total: P" + total);
+                            System.out.println("Stock ng " + fruitName[f] + " na natitira: " + stock[f] + " " + unit[f]);
+                        }
+                    }
+                    break;
+
+                case 4: // VIEW STOCK
+                    System.out.println("--- NATITIRANG STOCK ---");
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (status[i].equals("ACTIVE")) {
+                            System.out.println(fruitName[i] + ": " + stock[i] + " " + unit[i] + " | mga " + daysLeft[i] + " araw pa bago masira");
+                        }
+                    }
+                    break;
+
+                case 5: // WEEKLY SALES RANKING
+                    String[] rankName = new String[10];
+                    double[] rankSales = new double[10];
+                    int n = 0;
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (status[i].equals("ACTIVE")) {
+                            rankName[n] = fruitName[i];
+                            rankSales[n] = salesThisWeek[i];
+                            n++;
+                        }
+                    }
+
+                    // ipakita ang pinakamataas na benta muna
+                    for (int i = 0; i < n - 1; i++) {
+                        for (int j = 0; j < n - 1 - i; j++) {
+                            if (rankSales[j] < rankSales[j + 1]) {
+                                double tempSales = rankSales[j];
+                                rankSales[j] = rankSales[j + 1];
+                                rankSales[j + 1] = tempSales;
+                                String tempName = rankName[j];
+                                rankName[j] = rankName[j + 1];
+                                rankName[j + 1] = tempName;
                             }
                         }
+                    }
 
-                        if (slowFruits.contains(fruitName.get(f))) {
-                            System.out.println("REDUCE: " + fruitName.get(f) + " is slow-moving. Buy less or archive it.");
-                        } else if (stock == 0) {
-                            System.out.println("RESTOCK: " + fruitName.get(f) + " is out of stock.");
-                        } else if (stock < soldThisWeek) {
-                            System.out.println("RESTOCK: " + fruitName.get(f) + " sold " + soldThisWeek + " this week but only " + stock + " left.");
+                    System.out.println("--- BENTA NGAYONG LINGGO ---");
+                    for (int i = 0; i < n; i++) {
+                        System.out.println((i + 1) + ". " + rankName[i] + " - P" + rankSales[i]);
+                    }
+                    if (n > 0) {
+                        System.out.println("Pinakamabenta, bes: " + rankName[0]);
+                        System.out.println("Pinakamahina ang benta: " + rankName[n - 1]);
+                    }
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (slow[i]) {
+                            System.out.println("ALERT: Si " + fruitName[i] + " mababa ang benta ng 3 linggo na, bes. Check mo na!");
                         }
                     }
-                    */ // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
+                    break;
 
-                    
-                    // ---------- REPORTS ----------
-                     // // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
-                    /*double allSales = 0;
-                    double weekSales = 0;
-                    for (int s = 0; s < saleDate.size(); s++) {
-                        allSales += saleTotal.get(s);
-                        if (!LocalDate.parse(saleDate.get(s)).isBefore(weekStart)) weekSales += saleTotal.get(s);
+                case 6: // SPOILAGE CHECK
+                    System.out.println("Note: estimate lang 'to, bes. Ikaw pa rin ang mag-check ng prutas.");
+                    boolean found = false;
+                    for (int i = 0; i < fruitCount; i++) {
+                        // prutas na may stock at 2 araw na lang bago masira
+                        if (status[i].equals("ACTIVE") && stock[i] > 0 && daysLeft[i] <= 2) {
+                            found = true;
+                            System.out.println("\n" + fruitName[i] + " - " + stock[i] + " " + unit[i] + " | mga " + daysLeft[i] + " araw na lang, bes");
+                            System.out.println("Paalala: unahin ibenta ang mas luma (FIFO) at i-check kung okay pa.");
+                            System.out.print("1 = Okay pa (extend), 2 = Sira na, 3 = Skip: ");
+                            int c = s.nextInt();
+                            if (c == 1) {
+                                System.out.print("Dagdag ilang araw? ");
+                                int add = s.nextInt();
+                                daysLeft[i] = daysLeft[i] + add;
+                                System.out.println("Ayos! Mga " + daysLeft[i] + " araw pa bago masira.");
+                            } else if (c == 2) {
+                                wasteQty[i] = wasteQty[i] + stock[i];
+                                stock[i] = 0;
+                                System.out.println("Na-mark na as sira at na-add sa waste log, bes.");
+                            }
+                        }
                     }
-                    System.out.println("\n--- SALES REPORT ---");
-                    System.out.println("Number of sales: " + saleDate.size());
-                    System.out.println("Sales this week: P" + weekSales);
-                    System.out.println("Total sales: P" + allSales);
+                    if (!found) {
+                        System.out.println("Wala pang prutas na malapit nang masira, bes. Galing!");
+                    }
+
+                    // pwede pa ring i-mark ng vendor ang kahit anong prutas na sira
+                    System.out.println("\nIbang prutas na may stock:");
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (status[i].equals("ACTIVE") && stock[i] > 0) {
+                            System.out.println((i + 1) + ". " + fruitName[i] + " - " + stock[i] + " " + unit[i]);
+                        }
+                    }
+                    System.out.print("Enter number to mark as spoiled (0 = wala): ");
+                    int m = s.nextInt() - 1;
+                    if (m >= 0 && m < fruitCount && status[m].equals("ACTIVE") && stock[m] > 0) {
+                        wasteQty[m] = wasteQty[m] + stock[m];
+                        stock[m] = 0;
+                        System.out.println("Na-mark na as sira si " + fruitName[m] + " at na-add sa waste log, bes.");
+                    }
+                    break;
+
+                case 7: // ARCHIVE OR RESTORE
+                    for (int i = 0; i < fruitCount; i++) {
+                        System.out.println((i + 1) + ". " + fruitName[i] + " [" + status[i] + "]");
+                    }
+                    System.out.print("Choose fruit: ");
+                    int a = s.nextInt() - 1;
+
+                    if (a < 0 || a >= fruitCount) {
+                        System.out.println("Nako, invalid na prutas 'yan, bes.");
+                    } else if (status[a].equals("ACTIVE")) {
+                        System.out.print("Reason (1 = Mahina benta, 2 = Wala sa season, 3 = Nasira, 4 = Desisyon ko): ");
+                        int why = s.nextInt();
+                        if (why == 1) {
+                            reason[a] = "LOW SALES";
+                        } else if (why == 2) {
+                            reason[a] = "OUT OF SEASON";
+                        } else if (why == 3) {
+                            reason[a] = "SPOILAGE";
+                        } else {
+                            reason[a] = "VENDOR CHOICE";
+                        }
+                        status[a] = "ARCHIVED";
+                        System.out.println("Na-archive na si " + fruitName[a] + ", bes. Nandiyan pa rin ang records niya.");
+                    } else {
+                        status[a] = "ACTIVE";
+                        reason[a] = "NONE";
+                        System.out.println("Bumalik na si " + fruitName[a] + " sa selling list, bes!");
+                    }
+                    break;
+
+                case 8: // SUGGESTIONS AND REPORTS
+                    System.out.println("--- MGA SUGGESTION ---");
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (status[i].equals("ACTIVE")) {
+                            if (slow[i]) {
+                                System.out.println("BABASAN: Si " + fruitName[i] + " mabagal ang benta, bes. Bili nang kaunti o i-archive mo na.");
+                            } else if (stock[i] == 0) {
+                                System.out.println("RESTOCK: Ubos na ang " + fruitName[i] + ", bes. Kailangan na ng dagdag.");
+                            } else if (stock[i] < qtySoldThisWeek[i]) {
+                                System.out.println("RESTOCK: Si " + fruitName[i] + " nakabenta ng " + qtySoldThisWeek[i] + " " + unit[i] + " ngayong linggo pero " + stock[i] + " na lang ang natitira, bes.");
+                            }
+                        }
+                    }
+
+                    System.out.println("\n--- SALES REPORT (ngayong linggo) ---");
+                    double totalSales = 0;
+                    for (int i = 0; i < fruitCount; i++) {
+                        System.out.println(fruitName[i] + ": P" + salesThisWeek[i]);
+                        totalSales = totalSales + salesThisWeek[i];
+                    }
+                    System.out.println("TOTAL SALES: P" + totalSales + " - laban lang, bes!");
 
                     System.out.println("\n--- WASTE REPORT ---");
-                    for (int i = 0; i < wasteDate.size(); i++) {
-                        System.out.println(wasteDate.get(i) + " | " + wasteFruit.get(i) + " | " + wasteQty.get(i) + " | " + wasteReason.get(i));
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (wasteQty[i] > 0) {
+                            System.out.println(fruitName[i] + ": " + wasteQty[i] + " " + unit[i] + " ang nasira");
+                        }
                     }
 
-                    System.out.println("\n--- ARCHIVED FRUITS ---");
-                    for (int i = 0; i < fruitName.size(); i++) {
-                        if (fruitStatus.get(i).equals("ARCHIVED")) System.out.println(fruitName.get(i) + " | " + archiveReason.get(i));
+                    System.out.println("\n--- ARCHIVED NA PRUTAS ---");
+                    for (int i = 0; i < fruitCount; i++) {
+                        if (status[i].equals("ARCHIVED")) {
+                            System.out.println(fruitName[i] + " | Reason: " + reason[i]);
+                        }
                     }
-                    */  // // DITO TAYO LAHAT MAHIRAP TO PERO KAYA HAHAHAHA 
+                    break;
 
-                } else if (choice == 0) {
-                    System.out.println("Goodbye!");
-                    running = false;
-                } else {
-                    System.out.println("Invalid choice. Try again.");
-                } 
-                
-                
+                case 0: // EXIT
+                    System.out.println("Sige, ingat ka, bes! Goodbye at good luck sa negosyo!");
+                    break;
 
-                
-                
+                default:
+                    System.out.println("Nako, invalid 'yan, bes. 0 hanggang 8 lang ang pwedeng i-enter.");
+            }
 
-                /* // DITO SI PAUL MAHIRAP TO PERO KAYA NYA HAHAHAHA 
+        } while (choice != 0);
 
-                // ---------- SAVE TO FILES (after every change) ----------
-                if (changed) {
-                    new File("data").mkdirs();
-
-                    PrintWriter pw = new PrintWriter(new FileWriter("data/fruits.txt"));
-                    pw.println("NAME | UNIT | PRICE | BUNDLE SIZE | BUNDLE PRICE | SHELF LIFE (DAYS) | STATUS | ARCHIVE REASON");
-                    for (int i = 0; i < fruitName.size(); i++) {
-                        pw.println(fruitName.get(i) + " | " + fruitUnit.get(i) + " | " + fruitPrice.get(i) + " | " + bundleSize.get(i) + " | "
-                                + bundlePrice.get(i) + " | " + shelfLife.get(i) + " | " + fruitStatus.get(i) + " | " + archiveReason.get(i));
-                    }
-                    pw.close();
-
-                    pw = new PrintWriter(new FileWriter("data/stock.txt"));
-                    pw.println("FRUIT | QUANTITY | DATE RECEIVED | RIPENESS | SPOIL DATE | STATUS");
-                    for (int i = 0; i < stockFruit.size(); i++) {
-                        pw.println(stockFruit.get(i) + " | " + stockQty.get(i) + " | " + stockDate.get(i) + " | "
-                                + stockRipeness.get(i) + " | " + stockSpoil.get(i) + " | " + stockStatus.get(i));
-                    }
-                    pw.close();
-
-                    pw = new PrintWriter(new FileWriter("data/sales.txt"));
-                    pw.println("DATE | FRUIT | SOLD AS | QUANTITY | TOTAL");
-                    for (int i = 0; i < saleDate.size(); i++) {
-                        pw.println(saleDate.get(i) + " | " + saleFruit.get(i) + " | " + saleSoldAs.get(i) + " | " + saleQty.get(i) + " | " + saleTotal.get(i));
-                    }
-                    pw.close();
-
-                    pw = new PrintWriter(new FileWriter("data/waste.txt"));
-                    pw.println("DATE | FRUIT | QUANTITY | REASON");
-                    for (int i = 0; i < wasteDate.size(); i++) {
-                        pw.println(wasteDate.get(i) + " | " + wasteFruit.get(i) + " | " + wasteQty.get(i) + " | " + wasteReason.get(i));
-                    }
-                    pw.close();
-
-                    System.out.println("(Saved)");
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number.");
-                sc.nextLine();
-            } catch (IOException e) {
-                System.out.println("Error saving files.");
-            } */  // DITO SI PAUL MAHIRAP TO PERO KAYA NYA HAHAHAHA 
-        }
+        s.close();
     }
 }
