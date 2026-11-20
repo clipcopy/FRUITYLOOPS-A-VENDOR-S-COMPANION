@@ -6,32 +6,32 @@ public class FruityLoops {
         Scanner s = new Scanner(System.in);
 
         // ===================== FRUIT DATABASE (mga arrays) =====================
-        // Index:                 0        1         2         3        4         5           6   7   8   9
-        String[] fruitName   = {"Mango", "Banana", "Grapes", "Apple", "Papaya", "Lanzones", "", "", "", ""};
-        String[] unit        = {"kg",    "pc",     "pack",   "pc",    "kg",     "kg",       "", "", "", ""};
-        double[] price       = {120,     10,       80,       25,      60,       100,        0,  0,  0,  0};
-        int[] bundleSize     = {0,       3,        0,        4,       0,        0,          0,  0,  0,  0};
-        double[] bundlePrice = {0,       25,       0,        90,      0,        0,          0,  0,  0,  0};
-        int[] shelfLife      = {7,       5,        10,       14,      6,        6,          0,  0,  0,  0};
-        double[] stock       = {6,       42,       15,       40,      8,        0,          0,  0,  0,  0};
-        int[] daysLeft       = {1,       2,        7,        9,       4,        0,          0,  0,  0,  0};
-        String[] status      = {"ACTIVE", "ACTIVE", "ACTIVE", "ACTIVE", "ACTIVE", "ARCHIVED", "", "", "", ""};
-        String[] reason      = {"NONE",   "NONE",   "NONE",   "NONE",   "NONE",   "OUT OF SEASON", "", "", "", ""};
-        boolean[] newFruit   = {false,   false,    false,    false,   false,    false,      false, false, false, false};
+        // Index:                 0              1       2           3                 4         5            6         7             8         9
+        String[] fruitName   = {"Fuji Apple", "Manggo", "Ponkan", "Banana Latundan", "Pakwan", "Fresh Lemon", "Sunkist", "Grapes", "Lanzones", "Green Apple"};
+        String[] unit        = {"pc",          "kg",     "pack",   "kg",               "pc",     "pc",          "pc",      "kg",      "kg",             "pc"};
+        double[] price       = {35,             169,      70,       100,                134,      25,            65,        160,       40,                85};
+        int[] bundleSize     = {0,              0,        0,        0,                  0,        0,             0,         0,         0,                  0};
+        double[] bundlePrice = {0,              0,        0,        0,                  0,        0,             0,         0,         0,                  0};
+        int[] shelfLife      = {15,             15,       15,       15,                 15,       15,            15,        15,        15,                15};
+        double[] stock       = {60,             7,        8,        8,                  30,       25,            13,        4,         8,                  9};
+        int[] daysLeft       = {15,             15,       15,       15,                 15,       15,            15,         15,       15,                15};
+        String[] status      = {"ACTIVE",     "ACTIVE",  "ACTIVE", "ACTIVE",          "ACTIVE",  "ACTIVE",      "ACTIVE",   "ACTIVE", "ACTIVE",     "ACTIVE"};
+        String[] reason      = {"NONE",       "NONE",    "NONE",   "NONE",            "NONE",    "NONE",        "NONE",     "NONE",   "NONE",         "NONE"};
+        boolean[] newFruit   = {false,         false,    false,    false,             false,     false,          false,      false,    false,          false};
 
         // ===================== SALES AT WASTE RECORDS =====================
-        double[] sales2WeeksAgo  = {1920, 470, 560, 670, 60, 0, 0, 0, 0, 0};   // pesos
-        double[] salesLastWeek   = {1920, 470, 560, 670, 60, 0, 0, 0, 0, 0};   // pesos
-        double[] salesThisWeek   = {960,  250, 320, 400, 0,  0, 0, 0, 0, 0};   // pesos
-        double[] qtySoldThisWeek = {8,    25,  4,   16,  0,  0, 0, 0, 0, 0};   // sa unit ng prutas
-        double[] wasteQty        = {0.5,  6,   0,   0,   0,  0, 0, 0, 0, 0};   // mga nasira
+        double[] sales2WeeksAgo  = {7,350,  2028,  2800,  1470,  5600, 1876, 875, 1820, 1120, 4165};   // pesos
+        double[] salesLastWeek   = {7700,   2028,  3080,  1470,  5600, 1876, 875, 1820, 1120, 4165};   // pesos
+        double[] salesThisWeek   = {8575,   2366,  3500,  1470,  5600, 1876, 875, 1820, 1120, 4165};   // pesos
+        double[] qtySoldThisWeek = {245,    14,    175,   21,    56,   14,   35,  20,   28,     49};   // sa unit ng prutas
+        double[] wasteQty        = {0,      0,     0,     0,     0,    0,    0,   0,    0,       0};   // mga nasira
 
-        int fruitCount = 6;    // ilan ang prutas sa arrays ngayon (max is 10)
+        int fruitCount = 9;    // ilan ang prutas sa arrays ngayon (max is 10)
         int choice;
 
         do {
             // ---------- MENU ----------
-            System.out.println("===== FRUITYLOOPS: A VENDOR'S COMPANION =====");
+            System.out.println("\n===== FRUITYLOOPS: ANG KASAMA MO SA PAGNENEGOSYO =====");
             System.out.println("1. Add Fruit");
             System.out.println("2. Restock");
             System.out.println("3. Sell");
