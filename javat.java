@@ -26,7 +26,7 @@ public class FruityLoops {
         double[] qtySoldThisWeek = {245,    14,    175,   21,    56,   14,   35,  20,   28,     49};   // sa unit ng prutas
         double[] wasteQty        = {0,      0,     0,     0,     0,    0,    0,   0,    0,       0};   // mga nasira
 
-        int fruitCount = 9;    // ilan ang prutas sa arrays ngayon (max is 10)
+        int fruitCount = 10;    // ilan ang prutas sa arrays ngayon (max is 10)
         int choice;
 
         do {
