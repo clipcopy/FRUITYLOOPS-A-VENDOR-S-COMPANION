@@ -41,9 +41,11 @@ public class FruityLoops {
         // ===== LOGIN VARIABLES =====
         String user = "";                             // username created by the vendor
         String pass = "";                             // password created by the vendor
+        String confirmPass = "";                      // password typed again to confirm it
         String enteredUser = "";                      // username typed when logging in
         String enteredPass = "";                      // password typed when logging in
         int tries = 3;                                // login chances left
+        boolean passwordConfirmed = false;            // true when both passwords match
         boolean loggedIn = false;                     // true when the login is correct
 
         // ===== MENU AND INPUT VARIABLES =====
@@ -88,11 +90,21 @@ public class FruityLoops {
                 System.out.println("Username must be 5-15 characters.");
             }
         }
-        while (pass.length() < 5 || pass.length() > 15) {
-            System.out.print("Create password (5-15 characters): ");
-            pass = s.nextLine();
-            if (pass.length() < 5 || pass.length() > 15) {
-                System.out.println("Password must be 5-15 characters.");
+        while (!passwordConfirmed) {
+            pass = "";
+            while (pass.length() < 5 || pass.length() > 15) {
+                System.out.print("Create password (5-15 characters): ");
+                pass = s.nextLine();
+                if (pass.length() < 5 || pass.length() > 15) {
+                    System.out.println("Password must be 5-15 characters.");
+                }
+            }
+            System.out.print("Confirm password: ");
+            confirmPass = s.nextLine();
+            if (confirmPass.equals(pass)) {
+                passwordConfirmed = true;
+            } else {
+                System.out.println("Passwords do not match. Please create your password again.");
             }
         }
         System.out.println("\nAccount created. Please log in.");
