@@ -1,14 +1,9 @@
-// Import Scanner so the program can read input typed by the vendor.
 import java.util.Scanner;
 
-// Main class of the Fruity Loops inventory and sales program.
 public class FruityLoops {
-    // Java begins running the program from this main method.
     public static void main(String[] args) {
-        // Create a Scanner to receive keyboard input.
         Scanner s = new Scanner(System.in);
 
-        // The arrays store each fruit's information. Matching indexes refer to the same fruit.
         // ===== ARRAYS (the database) - same index = same fruit, up to 10 fruits =====
         String[] fruitName = new String[10];          // name of each fruit
         String[] unit = new String[10];               // kg, pc, or pack
@@ -31,7 +26,6 @@ public class FruityLoops {
         boolean[] archived = new boolean[10];         // true = hidden (archived), false = active
         boolean[] slow = new boolean[10];             // true = slow-moving fruit
 
-        // These temporary variables hold the details of the fruit currently being processed.
         // ===== CURRENT FRUIT (copied from the arrays so the messages are easy to read) =====
         String currentFruit = "";                     // name of the fruit being shown right now
         String currentUnit = "";                      // unit of that fruit
@@ -44,7 +38,6 @@ public class FruityLoops {
         String bestFruit = "";                        // fruit with the highest sales
         String lowestFruit = "";                      // fruit with the lowest sales
 
-        // These variables store the account information and login status.
         // ===== LOGIN VARIABLES =====
         String user = "";                             // username created by the vendor
         String pass = "";                             // password created by the vendor
@@ -53,7 +46,6 @@ public class FruityLoops {
         int tries = 3;                                // login chances left
         boolean loggedIn = false;                     // true when the login is correct
 
-        // These variables store the vendor's menu choices and the values entered in each feature.
         // ===== MENU AND INPUT VARIABLES =====
         int fruitCount = 0;                           // how many fruits are saved so far
         int choice = 0;                               // menu number picked by the vendor
@@ -77,7 +69,6 @@ public class FruityLoops {
         boolean exists = false;                       // true if the fruit name is already saved
         boolean found = false;                        // true if a fruit is close to spoiling
 
-        // These variables are used to calculate sales averages and report totals.
         // ===== TOTALS AND AVERAGES (for slow-moving check and reports) =====
         double avg2WeeksAgo = 0;                      // average sales of all fruits 2 weeks ago
         double avgLastWeek = 0;                       // average sales of all fruits last week
@@ -87,11 +78,9 @@ public class FruityLoops {
         double totalWaste = 0;                        // all spoiled quantity
         double totalSales = 0;                        // all pesos earned this week
 
-        // Display the program title and the login heading.
         System.out.println("===== FRUITY LOOPS: A Vendor's Companion =====");
         System.out.println("\n===== SYSTEM LOGIN =====");
 
-        // Repeat until the username contains between 5 and 15 characters.
         while (user.length() < 5 || user.length() > 15) {
             System.out.print("Create username (5-15 characters): ");
             user = s.nextLine();
@@ -99,7 +88,6 @@ public class FruityLoops {
                 System.out.println("Username must be 5-15 characters.");
             }
         }
-        // Repeat until the password contains between 5 and 15 characters.
         while (pass.length() < 5 || pass.length() > 15) {
             System.out.print("Create password (5-15 characters): ");
             pass = s.nextLine();
@@ -107,34 +95,26 @@ public class FruityLoops {
                 System.out.println("Password must be 5-15 characters.");
             }
         }
-        // Confirm account creation before asking the vendor to log in.
         System.out.println("\nAccount created. Please log in.");
 
-        // Allow up to three login attempts, stopping early after a successful login.
         while (tries > 0 && !loggedIn) {
             System.out.print("Username: ");
             enteredUser = s.nextLine();
             System.out.print("Password: ");
             enteredPass = s.nextLine();
-            // Check whether both entered login details match the created account.
             if (enteredUser.equals(user) && enteredPass.equals(pass)) {
                 System.out.println("Login successful!");
-                // Record that the vendor has successfully logged in.
                 loggedIn = true;
             } else {
-                // Remove one attempt when the login information is incorrect.
                 tries--;
                 System.out.println("Incorrect login. Attempts left: " + tries);
             }
         }
 
-        // Check whether the vendor failed all three login attempts.
         if (!loggedIn) {
             System.out.println("Too many failed attempts. Program closed.");
         } else {
-            // Keep showing the main menu until the vendor chooses to exit.
             do {
-                // Display all available Fruity Loops features.
                 System.out.println("\n===== MAIN MENU =====");
                 System.out.println("1. Add Fruit");
                 System.out.println("2. Restock");
@@ -146,10 +126,8 @@ public class FruityLoops {
                 System.out.println("8. Suggestions and Reports");
                 System.out.println("0. Exit");
                 System.out.print("Choose: ");
-                // Read the number of the feature selected by the vendor.
                 choice = s.nextInt();
 
-                // Reset the active-fruit count and sales totals before calculating new averages.
                 activeCount = 0;
                 avg2WeeksAgo = 0;
                 avgLastWeek = 0;
@@ -162,14 +140,12 @@ public class FruityLoops {
                         avgThisWeek += salesThisWeek[i];
                     }
                 }
-                // Calculate the average sales only when at least one active fruit exists.
                 if (activeCount > 0) {
                     avg2WeeksAgo = avg2WeeksAgo / activeCount;
                     avgLastWeek = avgLastWeek / activeCount;
                     avgThisWeek = avgThisWeek / activeCount;
                 }
                 for (int i = 0; i < fruitCount; i++) {
-                    // Mark active fruits as slow-moving when their sales are below half the average for all three weeks.
                     slow[i] = !archived[i]
                             && (sales2WeeksAgo[i] > 0 || salesLastWeek[i] > 0)
                             && sales2WeeksAgo[i] < avg2WeeksAgo / 2
@@ -177,43 +153,32 @@ public class FruityLoops {
                             && salesThisWeek[i] < avgThisWeek / 2;
                 }
 
-                // Require the vendor to add a fruit before using features 2 through 8.
                 if (choice >= 2 && choice <= 8 && fruitCount == 0) {
                     System.out.println("No fruits added yet. Choose 1 to add a fruit first.");
                 } else {
-                    // Open the feature that matches the selected menu number.
                     switch (choice) {
 
-                        // OPTION 1: ADD A NEW FRUIT
                         case 1:
-                            // Do not add another fruit when all ten array spaces are occupied.
                             if (fruitCount == 10) {
                                 System.out.println("Fruit list is full.");
                                 break;
                             }
-                            // Clear the leftover Enter key from nextInt() before reading text.
                             s.nextLine();
                             System.out.print("Fruit name: ");
-                            // Read the name of the fruit that the vendor wants to add.
                             newName = s.nextLine();
-                            // Assume the fruit name is new until a matching name is found.
                             exists = false;
                             for (int i = 0; i < fruitCount; i++) {
-                                // Check existing names without considering uppercase or lowercase letters.
                                 if (fruitName[i].equalsIgnoreCase(newName)) {
                                     exists = true;
                                 }
                             }
-                            // Reject an empty fruit name or a name that is already in the list.
                             if (newName.length() == 0 || exists) {
                                 System.out.println("Invalid name or fruit already exists.");
                                 break;
                             }
 
-                            // Let the vendor choose how the fruit will be measured or counted.
                             System.out.println("Unit: 1 = kg, 2 = pc, 3 = pack");
                             System.out.print("Choose unit: ");
-                            // Read the selected unit number.
                             unitChoice = s.nextInt();
                             if (unitChoice == 1) {
                                 newUnit = "kg";
@@ -226,7 +191,6 @@ public class FruityLoops {
                                 break;
                             }
 
-                            // Ask for the price, shelf-life range, starting stock, and previous weekly sales.
                             System.out.print("Price per " + newUnit + ": ");
                             newPrice = s.nextDouble();
                             System.out.print("Shelf life - fewest days (example 2): ");
@@ -240,7 +204,6 @@ public class FruityLoops {
                             System.out.print("Sales last week in pesos (0 if new): ");
                             salesLastWeek[fruitCount] = s.nextDouble();
 
-                            // Check that the entered price, stock, shelf life, and previous sales are valid.
                             if (newPrice <= 0 || newStock < 0 || fewestDays[fruitCount] <= 0
                                     || mostDays[fruitCount] < fewestDays[fruitCount]
                                     || sales2WeeksAgo[fruitCount] < 0 || salesLastWeek[fruitCount] < 0) {
@@ -250,22 +213,17 @@ public class FruityLoops {
                                 break;
                             }
 
-                            // Store the new fruit details in the next available array position.
                             fruitName[fruitCount] = newName;
                             unit[fruitCount] = newUnit;
                             price[fruitCount] = newPrice;
                             stock[fruitCount] = newStock;
-                            // Set the initial freshness estimate when the fruit has starting stock.
                             if (newStock > 0) {
                                 daysLeft[fruitCount] = fewestDays[fruitCount];
                             }
-                            // Confirm that the fruit was saved and display its shelf-life range.
                             System.out.println(newName + " added. Shelf life: " + fewestDays[fruitCount] + "-" + mostDays[fruitCount] + " days");
-                            // Increase the saved-fruit count so the next fruit uses the next index.
                             fruitCount++;
                             break;
 
-                        // OPTION 2: RESTOCK AN EXISTING FRUIT
                         case 2:
                             for (int i = 0; i < fruitCount; i++) {
                                 if (!archived[i]) {
@@ -283,18 +241,15 @@ public class FruityLoops {
                             currentFruit = fruitName[pick];
                             currentUnit = unit[pick];
 
-                            // Ask how much stock was received and whether the batch is ripe or unripe.
                             System.out.print("Quantity received (" + currentUnit + "): ");
                             quantity = s.nextDouble();
                             System.out.print("Ripeness (1 = Ripe, 2 = Unripe): ");
                             ripeChoice = s.nextInt();
-                            // Stop if the quantity is not positive or the ripeness choice is invalid.
                             if (quantity <= 0 || (ripeChoice != 1 && ripeChoice != 2)) {
                                 System.out.println("Invalid input. Nothing was restocked.");
                                 break;
                             }
 
-                            // Ripe fruit receives half of the fewest shelf-life days, with a minimum of one day.
                             if (ripeChoice == 1) {
                                 daysLeft[pick] = fewestDays[pick] / 2;
                                 if (daysLeft[pick] < 1) {
@@ -303,18 +258,15 @@ public class FruityLoops {
                             } else {
                                 daysLeft[pick] = fewestDays[pick];
                             }
-                            // Add the received amount to the fruit's existing stock.
                             stock[pick] = stock[pick] + quantity;
 
                             currentStock = stock[pick];
                             currentDays = daysLeft[pick];
-                            // Display the updated stock and freshness estimate.
                             System.out.println("Restocked " + currentFruit + ".");
                             System.out.println("New stock: " + currentStock + " " + currentUnit);
                             System.out.println("Days left: " + currentDays);
                             break;
 
-                        // OPTION 3: SELL FRUIT
                         case 3:
                             for (int i = 0; i < fruitCount; i++) {
                                 if (!archived[i]) {
@@ -322,7 +274,6 @@ public class FruityLoops {
                                     currentFruit = fruitName[i];
                                     currentStock = stock[i];
                                     currentUnit = unit[i];
-                                    // List active fruits and show how much stock is currently available.
                                     System.out.println(number + ". " + currentFruit + " (stock: " + currentStock + " " + currentUnit + ")");
                                 }
                             }
@@ -337,28 +288,22 @@ public class FruityLoops {
                             currentPrice = price[pick];
 
                             System.out.println("Price: P" + currentPrice + " per " + currentUnit);
-                            // Ask how much of the selected fruit the customer wants to buy.
                             System.out.print("Quantity to sell: ");
                             quantity = s.nextDouble();
-                            // Make sure the sale quantity is positive and does not exceed available stock.
                             if (quantity <= 0 || quantity > stock[pick]) {
                                 System.out.println("Not enough stock or invalid quantity.");
                                 break;
                             }
 
-                            // Calculate the total cost and update stock, quantity sold, and weekly revenue.
                             total = quantity * currentPrice;
                             stock[pick] = stock[pick] - quantity;
                             qtySoldThisWeek[pick] = qtySoldThisWeek[pick] + quantity;
                             salesThisWeek[pick] = salesThisWeek[pick] + total;
-                            // Show the sale confirmation and the amount the customer must pay.
                             System.out.println("Sold " + quantity + " " + currentUnit + " of " + currentFruit + ".");
                             System.out.println("Total: P" + total);
                             break;
 
-                        // OPTION 4: VIEW CURRENT STOCK
                         case 4:
-                            // Display the current inventory details for every saved fruit.
                             System.out.println("\n===== CURRENT STOCK =====");
                             for (int i = 0; i < fruitCount; i++) {
                                 currentFruit = fruitName[i];
@@ -372,7 +317,6 @@ public class FruityLoops {
                                 if (archived[i]) {
                                     System.out.println("Status: ARCHIVED (" + currentReason + ")");
                                 }
-                                // Print stock, price, shelf life, days left, weekly sales, and spoiled quantity.
                                 System.out.println("Stock: " + currentStock + " " + currentUnit);
                                 System.out.println("Price: P" + currentPrice);
                                 System.out.println("Shelf life: " + fewestDays[i] + "-" + mostDays[i] + " days");
@@ -382,29 +326,22 @@ public class FruityLoops {
                             }
                             break;
 
-                        // OPTION 5: WEEKLY SALES RANKING
                         case 5:
-                            // Reset the number of fruits that will appear in the ranking.
                             rankCount = 0;
                             for (int i = 0; i < fruitCount; i++) {
                                 if (!archived[i]) {
-                                    // Copy active fruit names and weekly sales into separate ranking arrays.
                                     rankName[rankCount] = fruitName[i];
                                     rankSales[rankCount] = salesThisWeek[i];
                                     rankCount++;
                                 }
                             }
 
-                            // Sort the copied ranking data from highest sales to lowest sales using bubble sort.
                             for (int i = 0; i < rankCount - 1; i++) {
                                 for (int j = 0; j < rankCount - 1 - i; j++) {
-                                    // Swap neighboring entries when the fruit on the left has lower sales.
                                     if (rankSales[j] < rankSales[j + 1]) {
-                                        // Temporarily save the sales value so the two values can be swapped.
                                         tempSales = rankSales[j];
                                         rankSales[j] = rankSales[j + 1];
                                         rankSales[j + 1] = tempSales;
-                                        // Swap the fruit names too, keeping each name matched with its sales amount.
                                         tempName = rankName[j];
                                         rankName[j] = rankName[j + 1];
                                         rankName[j + 1] = tempName;
@@ -412,7 +349,6 @@ public class FruityLoops {
                                 }
                             }
 
-                            // Display the sorted ranking and identify the highest- and lowest-selling fruits.
                             System.out.println("\n===== WEEKLY SALES RANKING =====");
                             for (int i = 0; i < rankCount; i++) {
                                 number = i + 1;
@@ -420,7 +356,6 @@ public class FruityLoops {
                                 currentSales = rankSales[i];
                                 System.out.println(number + ". " + currentFruit + " - P" + currentSales);
                             }
-                            // Show best- and lowest-selling fruit names only when the ranking is not empty.
                             if (rankCount > 0) {
                                 bestFruit = rankName[0];
                                 lowestFruit = rankName[rankCount - 1];
@@ -428,7 +363,6 @@ public class FruityLoops {
                                 System.out.println("Lowest-selling fruit: " + lowestFruit);
                             }
                             for (int i = 0; i < fruitCount; i++) {
-                                // Display a warning for each fruit marked as slow-moving.
                                 if (slow[i]) {
                                     currentFruit = fruitName[i];
                                     System.out.println("ALERT: " + currentFruit + " has had low sales for 3 weeks in a row.");
@@ -436,35 +370,27 @@ public class FruityLoops {
                             }
                             break;
 
-                        // OPTION 6: SPOILAGE CHECK
                         case 6:
                             System.out.println("\n===== SPOILAGE CHECK =====");
-                            // Remind the vendor that the freshness estimate does not replace physical inspection.
                             System.out.println("Note: Days left are only estimates. Please check the fruits yourself.");
-                            // Reset the flag before checking for fruit that may spoil soon.
                             found = false;
                             for (int i = 0; i < fruitCount; i++) {
-                                // Find active fruits that have stock and two or fewer estimated days remaining.
                                 if (!archived[i] && stock[i] > 0 && daysLeft[i] <= 2) {
                                     found = true;
                                     currentFruit = fruitName[i];
                                     currentDays = daysLeft[i];
                                     System.out.println("\n" + currentFruit + " has " + currentDays + " day(s) left.");
                                     System.out.println("Reminder: Sell older stock first (FIFO).");
-                                    // Let the vendor extend freshness, mark the stock as spoiled, or skip the fruit.
                                     System.out.print("1 = Extend freshness, 2 = Mark as spoiled, 3 = Skip: ");
                                     spoilChoice = s.nextInt();
-                                    // Option 1 adds extra days to the fruit's estimated freshness.
                                     if (spoilChoice == 1) {
                                         System.out.print("Add how many days? ");
                                         extraDays = s.nextInt();
-                                        // Accept only a positive number of extra days.
                                         if (extraDays > 0) {
                                             daysLeft[i] = daysLeft[i] + extraDays;
                                             currentDays = daysLeft[i];
                                             System.out.println("Freshness extended to " + currentDays + " days.");
                                         }
-                                    // Option 2 records all remaining stock as spoiled and clears the available stock.
                                     } else if (spoilChoice == 2) {
                                         wasteQty[i] = wasteQty[i] + stock[i];
                                         stock[i] = 0;
@@ -472,15 +398,12 @@ public class FruityLoops {
                                     }
                                 }
                             }
-                            // Inform the vendor when no active fruit is close to spoiling.
                             if (!found) {
                                 System.out.println("No fruits are close to spoiling.");
                             }
 
-                            // Give the vendor an option to manually mark another fruit as spoiled.
                             System.out.print("\nMark another fruit as spoiled? (1 = Yes, 2 = No): ");
                             markMore = s.nextInt();
-                            // If requested, list active fruits that still have available stock.
                             if (markMore == 1) {
                                 for (int i = 0; i < fruitCount; i++) {
                                     if (!archived[i] && stock[i] > 0) {
@@ -493,7 +416,6 @@ public class FruityLoops {
                                 }
                                 System.out.print("Enter fruit number: ");
                                 pick = s.nextInt() - 1;
-                                // Validate the chosen fruit before moving its remaining stock to the spoiled total.
                                 if (pick >= 0 && pick < fruitCount && !archived[pick] && stock[pick] > 0) {
                                     wasteQty[pick] = wasteQty[pick] + stock[pick];
                                     stock[pick] = 0;
@@ -505,13 +427,11 @@ public class FruityLoops {
                             }
                             break;
 
-                        // OPTION 7: ARCHIVE OR RESTORE A FRUIT
                         case 7:
                             for (int i = 0; i < fruitCount; i++) {
                                 number = i + 1;
                                 currentFruit = fruitName[i];
                                 if (archived[i]) {
-                                    // Mark archived fruits in the selection list.
                                     System.out.println(number + ". " + currentFruit + " [ARCHIVED]");
                                 } else {
                                     System.out.println(number + ". " + currentFruit);
@@ -519,19 +439,16 @@ public class FruityLoops {
                             }
                             System.out.print("Enter fruit number: ");
                             pick = s.nextInt() - 1;
-                            // Check that the selected fruit number is within the saved-fruit list.
                             if (pick < 0 || pick >= fruitCount) {
                                 System.out.println("Invalid fruit selection.");
                                 break;
                             }
                             currentFruit = fruitName[pick];
 
-                            // Restore the fruit if it is already archived; otherwise, archive it with a reason.
                             if (archived[pick]) {
                                 archived[pick] = false;
                                 System.out.println(currentFruit + " restored.");
                             } else {
-                                // Ask why the vendor wants to archive the selected fruit.
                                 System.out.print("Reason (1 = Low sales, 2 = Out of season, 3 = Spoilage, 4 = Vendor choice): ");
                                 reasonChoice = s.nextInt();
                                 if (reasonChoice == 1) {
@@ -543,16 +460,13 @@ public class FruityLoops {
                                 } else {
                                     reason[pick] = "VENDOR CHOICE";
                                 }
-                                // Change the fruit status to archived and show the saved reason.
                                 archived[pick] = true;
                                 currentReason = reason[pick];
                                 System.out.println(currentFruit + " archived (" + currentReason + ").");
                             }
                             break;
 
-                        // OPTION 8: SUGGESTIONS AND REPORTS
                         case 8:
-                            // Reset all report totals before calculating the current results.
                             totalStock = 0;
                             totalSold = 0;
                             totalWaste = 0;
@@ -570,7 +484,6 @@ public class FruityLoops {
                                 currentDays = daysLeft[i];
 
                                 if (archived[i]) {
-                                    // Give a recommendation based on archive status, sales, stock, and estimated freshness.
                                     System.out.println("Archived: " + currentFruit + " (" + currentReason + ")");
                                 } else if (slow[i]) {
                                     System.out.println("Reduce Order: " + currentFruit + " is slow-moving. Order less or archive it.");
@@ -581,12 +494,10 @@ public class FruityLoops {
                                 } else if (qtySoldThisWeek[i] == 0) {
                                     System.out.println("Promote: " + currentFruit + " has no sales this week.");
                                 }
-                                // Warn about active fruit that has stock and may spoil within two days.
                                 if (!archived[i] && currentDays <= 2 && currentStock > 0) {
                                     System.out.println("Warning: " + currentFruit + " may spoil soon. Sell it first (FIFO).");
                                 }
                             }
-                            // Print the number of active fruits and the store-wide totals.
                             System.out.println("\nActive fruits: " + activeCount);
                             System.out.println("Total stock: " + totalStock);
                             System.out.println("Sold this week: " + totalSold);
@@ -594,21 +505,16 @@ public class FruityLoops {
                             System.out.println("Total sales this week: P" + totalSales);
                             break;
 
-                        // OPTION 0: EXIT THE PROGRAM
                         case 0:
-                            // Display the logout message before leaving the menu.
                             System.out.println("Thank you for using Fruity Loops! Logged out.");
                             break;
 
-                        // Handle a menu number that is not between 0 and 8.
                         default:
                             System.out.println("Invalid choice. Please enter 0 to 8.");
                     }
                 }
-            // Repeat the main menu until the vendor selects 0.
             } while (choice != 0);
         }
-        // Close Scanner after the program has finished reading keyboard input.
         s.close();
     }
 }
