@@ -4,6 +4,7 @@ public class FruityLoops {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
 
+        // Lines 8-82: lahat ng variables, naka-group by trabaho. arrays = database natin, 10 boxes, same index = same prutas
         // ===== ARRAYS (the database) - same index = same fruit, up to 10 fruits =====
         String[] fruitName = new String[10];          // name of each fruit
         String[] unit = new String[10];               // kg, pc, or pack
@@ -80,6 +81,7 @@ public class FruityLoops {
         double totalWaste = 0;                        // all spoiled quantity
         double totalSales = 0;                        // all pesos earned this week
 
+        // Lines 85-94: title tapos gawa ng username, uulit ang while loop hangga't hindi 5-15 characters
         System.out.println("===== FRUITY LOOPS: A Vendor's Companion =====");
         System.out.println("\n===== SYSTEM LOGIN =====");
 
@@ -90,6 +92,7 @@ public class FruityLoops {
                 System.out.println("Username must be 5-15 characters.");
             }
         }
+        // Lines 96-113: gawa ng password tapos confirm. kapag di match, balik ulit sa paggawa ng password
         while (!passwordConfirmed) {
             pass = "";
             while (pass.length() < 5 || pass.length() > 15) {
@@ -109,6 +112,7 @@ public class FruityLoops {
         }
         System.out.println("\nAccount created. Please log in.");
 
+        // Lines 116-128: login, 3 tries lang. mali = tries--, tama = loggedIn true at labas na sa loop
         while (tries > 0 && !loggedIn) {
             System.out.print("Username: ");
             enteredUser = s.nextLine();
@@ -123,6 +127,7 @@ public class FruityLoops {
             }
         }
 
+        // Lines 131-146: pag naubos ang tries, sarado na. pag pasok, do-while menu na uulit hanggang 0
         if (!loggedIn) {
             System.out.println("Too many failed attempts. Program closed.");
         } else {
@@ -140,6 +145,7 @@ public class FruityLoops {
                 System.out.print("Choose: ");
                 choice = s.nextInt();
 
+                // Lines 149-172: slow-moving check: kinukuha ang average sales kada week, slow kapag below half ng average sa 3 weeks
                 activeCount = 0;
                 avg2WeeksAgo = 0;
                 avgLastWeek = 0;
@@ -165,11 +171,13 @@ public class FruityLoops {
                             && salesThisWeek[i] < avgThisWeek / 2;
                 }
 
+                // Lines 175-178: pag 2-8 ang pinili pero wala pang prutas, sasabihan muna na mag-add
                 if (choice >= 2 && choice <= 8 && fruitCount == 0) {
                     System.out.println("No fruits added yet. Choose 1 to add a fruit first.");
                 } else {
                     switch (choice) {
 
+                        // Lines 181-245: add fruit: check kung full o existing na, pili unit 1-3, input details, save sa next empty box (fruitCount)
                         case 1:
                             if (fruitCount == 10) {
                                 System.out.println("Fruit list is full.");
@@ -236,6 +244,7 @@ public class FruityLoops {
                             fruitCount++;
                             break;
 
+                        // Lines 248-289: restock: pili ng prutas (number - 1 = index), hinog = half ng shelf life, dagdag sa stock
                         case 2:
                             for (int i = 0; i < fruitCount; i++) {
                                 if (!archived[i]) {
@@ -279,6 +288,7 @@ public class FruityLoops {
                             System.out.println("Days left: " + currentDays);
                             break;
 
+                        // Lines 292-326: sell: check kung kaya ng stock, total = qty x price, bawas sa stock, dagdag sa sales
                         case 3:
                             for (int i = 0; i < fruitCount; i++) {
                                 if (!archived[i]) {
@@ -315,6 +325,7 @@ public class FruityLoops {
                             System.out.println("Total: P" + total);
                             break;
 
+                        // Lines 329-350: view stock: ipakita lahat ng prutas pati archived, kinokopya muna sa current variables para malinis i-print
                         case 4:
                             System.out.println("\n===== CURRENT STOCK =====");
                             for (int i = 0; i < fruitCount; i++) {
@@ -338,6 +349,7 @@ public class FruityLoops {
                             }
                             break;
 
+                        // Lines 353-395: ranking: copy ng active na prutas, bubble sort by sales, una = best seller, huli = lowest
                         case 5:
                             rankCount = 0;
                             for (int i = 0; i < fruitCount; i++) {
@@ -382,6 +394,7 @@ public class FruityLoops {
                             }
                             break;
 
+                        // Lines 398-453: spoilage: prutas na 2 days or less left, extend o spoiled (lipat sa waste), tapos pwede pa mag-mark ng iba
                         case 6:
                             System.out.println("\n===== SPOILAGE CHECK =====");
                             System.out.println("Note: Days left are only estimates. Please check the fruits yourself.");
@@ -439,6 +452,7 @@ public class FruityLoops {
                             }
                             break;
 
+                        // Lines 456-493: archive/restore: active -> archived with reason, archived -> balik active. walang binubura (soft delete)
                         case 7:
                             for (int i = 0; i < fruitCount; i++) {
                                 number = i + 1;
@@ -478,6 +492,7 @@ public class FruityLoops {
                             }
                             break;
 
+                        // Lines 496-533: reports: isang suggestion bawat prutas (else-if) tapos totals ng week
                         case 8:
                             totalStock = 0;
                             totalSold = 0;
@@ -517,14 +532,17 @@ public class FruityLoops {
                             System.out.println("Total sales this week: P" + totalSales);
                             break;
 
+                        // Lines 536-538: exit: goodbye message, titigil na ang do-while
                         case 0:
                             System.out.println("Thank you for using Fruity Loops! Logged out.");
                             break;
 
+                        // Lines 541-544: kahit anong number na wala sa menu = invalid
                         default:
                             System.out.println("Invalid choice. Please enter 0 to 8.");
                     }
                 }
+            // Lines 546-550: dulo ng menu loop, tapos close ng scanner
             } while (choice != 0);
         }
         s.close();
